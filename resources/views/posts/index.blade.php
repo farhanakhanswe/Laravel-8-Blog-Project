@@ -21,12 +21,20 @@
                 <div class="card-body">
                     {{ $post->body }}
                 </div>
-                <form>
-                    <button class="btn btn-primary">Like</button>
+                @if(!$post->likedBy(auth()->user()))
+                <form method="POST" action="{{ route('posts.likes', $post) }}">
+                    @csrf
+                    <button class="btn btn-primary" type="submit">Like</button>
+                   
                 </form>
-                <form>
-                    <button class="btn btn-dark"> Unlike </button>
+                @else
+                <form method="POST" action="{{ route('posts.likes', $post) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger" type="submit">Unlike</button>
                 </form>
+                @endif
+                 <span>{{ $post->likes->count() }} {{ Str::plural('like', $post->likes->count()) }}</span>
             @empty
                 No Posts
             @endforelse
