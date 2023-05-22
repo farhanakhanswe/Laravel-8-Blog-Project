@@ -37,13 +37,15 @@
                             <button class="btn btn-dark" type="submit">Unlike</button>
                         </form>
                     @endif
-                    @if($post->ownedBy(auth()->user()))
+
+                    @can('delete', $post)
                     <form method="POST" action="{{ route('posts.destroy', $post) }}">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger" type="submit">Delete</button>
                     </form>
-                    @endif
+                    @endcan
+
                 @endauth
                 <span>{{ $post->likes->count() }} {{ Str::plural('like', $post->likes->count()) }}</span>
             @empty
