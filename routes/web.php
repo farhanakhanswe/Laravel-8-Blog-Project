@@ -23,8 +23,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts')->middleware('auth');
+Route::get('/posts', [PostController::class, 'index'])->name('posts');
 Route::post('/posts', [PostController::class, 'store'])->middleware('auth');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
-Route::post('/posts/{post}/likes',[PostLikeController::class, 'store'])->name('posts.likes');
-Route::delete('/posts/{post}/likes', [PostLikeController::class, 'destroy']);
+Route::post('/posts/{post}/likes',[PostLikeController::class, 'store'])->name('posts.likes')->middleware('auth');
+Route::delete('/posts/{post}/likes', [PostLikeController::class, 'destroy'])->middleware('auth');
