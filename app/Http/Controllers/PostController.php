@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
-{
+{   
     public function index()
     {
         $posts = Post::latest()->with(['user','likes'])->paginate(20); 
