@@ -12,7 +12,13 @@
                 <form method="POST" action="/">
                     @csrf
                     <div class="form-group">
-                        <textarea class="form-control" id="content" rows="5" placeholder="Enter content" id="body" name="body"
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Content</label>
+                        <textarea class="form-control" id="content" rows="3" placeholder="Enter content" id="body" name="body"
                             required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
@@ -35,8 +41,9 @@
                     <div class="card-body">
                         @if (!empty($posts))
                             @foreach ($posts as $post)
-                                <h5 class="card-title">{{ $post->user->name }}<span>
-                                        {{ $post->created_at->diffForHumans() }} </span></h5>
+                                <h4 class="card-title">{{ $post->title }}</h4>
+                                <h5 class="card-title">By {{ $post->user->name }}<span>
+                                        || {{ $post->created_at->diffForHumans() }} </span></h5>
                                 <p class="card-text"> {{ $post->body }}.</p>
                                 <div class="text-right d-flex">
                                     @auth
