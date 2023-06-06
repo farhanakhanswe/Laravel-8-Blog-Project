@@ -41,49 +41,46 @@
                     <div class="card-body">
                         @if (!empty($posts))
                             @foreach ($posts as $post)
-                                <h4 class="card-title">{{ $post->title }}</h4>
-                                <h5 class="card-title">By {{ $post->user->name }}<span>
-                                        || {{ $post->created_at->diffForHumans() }} </span></h5>
-                                <p class="card-text"> {{ $post->body }}.</p>
-                                <div class="text-right d-flex">
-                                    @auth
-                                        @if (!$post->likedBy(auth()->user()))
-                                            <form method="POST" action="{{ route('posts.likes', $post) }}">
-                                                @csrf
-                                                <button class="btn btn-primary btn-sm" type="submit">Like</button>
+                                <div class="my-2">
+                                    <h4 class="card-title">{{ $post->title }}</h4>
+                                    <h5 class="card-title">By {{ $post->user->name }}<span>
+                                            || {{ $post->created_at->diffForHumans() }} </span></h5>
+                                    <p class="card-text"> {{ $post->body }}.</p>
+                                    <div class="row mx-1">
+                                        @auth
+                                            @if (!$post->likedBy(auth()->user()))
+                                                <form method="POST" action="{{ route('posts.likes', $post) }}">
+                                                    @csrf
+                                                    <button class="btn btn-primary btn-sm" type="submit">Like</button>
 
-                                            </form>
-                                        @else
-                                            <form method="POST" action="{{ route('posts.likes', $post) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger btn-sm" type="submit">Unlike</button>
-                                            </form>
-                                        @endif
+                                                </form>
+                                            @else
+                                                <form method="POST" action="{{ route('posts.likes', $post) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger btn-sm" type="submit">Unlike</button>
+                                                </form>
+                                            @endif
 
-                                        @can('delete', $post)
-                                            <form method="POST" action="{{ route('posts.destroy', $post) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-secondary btn-sm" type="submit">Delete</button>
-                                            </form>
-                                        @endcan
+                                            @can('delete', $post)
+                                                <form method="POST" action="{{ route('posts.destroy', $post) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-secondary btn-sm" type="submit">Delete</button>
+                                                </form>
+                                            @endcan
+
+                                        @endauth
                                     </div>
-                                @endauth
+                                    <span class="mx-1">{{ $post->likes->count() }}
+                                        {{ Str::plural('like', $post->likes->count()) }}</span>
+                                    <hr>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
-                    <span>{{ $post->likes->count() }}
-                        {{ Str::plural('like', $post->likes->count()) }}</span>
-                    @endforeach
-                @else
-                    <div class="my-5">
-                        Ooops..No Posts Yet!
-                    </div>
-                    @endif
                 </div>
-
             </div>
-        </div>
-        </div>
         </div>
     </section>
 
