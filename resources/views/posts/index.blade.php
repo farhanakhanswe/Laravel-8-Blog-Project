@@ -70,18 +70,19 @@
                                         @endcan
                                     </div>
                                 @endauth
-                                <span>{{ $post->likes->count() }}
-                                    {{ Str::plural('like', $post->likes->count()) }}</span>
-                            @endforeach
-                        @else
-                            <div class="my-5">
-                                Ooops..No Posts Yet!
-                            </div>
-                        @endif
                     </div>
-
+                    <span>{{ $post->likes->count() }}
+                        {{ Str::plural('like', $post->likes->count()) }}</span>
+                    @endforeach
+                @else
+                    <div class="my-5">
+                        Ooops..No Posts Yet!
+                    </div>
+                    @endif
                 </div>
+
             </div>
+        </div>
         </div>
         </div>
     </section>
