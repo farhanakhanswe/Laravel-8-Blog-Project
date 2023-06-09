@@ -52,6 +52,9 @@
                                     <hr>
                                 </div>
                             @endforeach
+                            <div class="my-4 d-flex justify-content-end">
+                                {!! $posts->links() !!}
+                            </div>
                         @endif
                     </div>
                 </div>

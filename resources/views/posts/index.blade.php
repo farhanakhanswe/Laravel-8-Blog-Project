@@ -43,7 +43,8 @@
                             @foreach ($posts as $post)
                                 <div class="my-2">
                                     <h4 class="card-title">{{ $post->title }}</h4>
-                                    <h5 class="card-title">By <a href="{{ route('users.posts', $post->user)}}"> {{ $post->user->name }} </a><span>
+                                    <h5 class="card-title">By <a href="{{ route('users.posts', $post->user) }}">
+                                            {{ $post->user->name }} </a><span>
                                             || {{ $post->created_at->diffForHumans() }} </span></h5>
                                     <p class="card-text"> {{ $post->body }}.</p>
                                     <div class="row mx-1">
@@ -77,6 +78,10 @@
                                     <hr>
                                 </div>
                             @endforeach
+
+                            <div class="my-4 d-flex justify-content-end">
+                                {!! $posts->links() !!}
+                            </div>
                         @endif
                     </div>
                 </div>

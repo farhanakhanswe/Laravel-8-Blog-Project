@@ -9,7 +9,7 @@ class UserPostController extends Controller
 {
     public function index(User $user)
     {
-        $posts = $user->posts()->with(['user', 'likes'])->paginate(20);
+        $posts = $user->posts()->with(['user', 'likes'])->paginate(2);
 
         return view('users.posts.index', ['posts' => $posts, 'user' => $user]);
     }
