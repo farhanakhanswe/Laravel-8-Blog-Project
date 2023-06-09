@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\UserPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use App\Http\Controllers\PostLikeController;
 Auth::routes();
 
 Route::get('/', [PostController::class, 'index'])->name('posts');
+Route::get('/users/{user:name}/posts', [UserPostController::class, 'index'])->name('users.posts');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -27,4 +29,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/{post}/likes', [PostLikeController::class, 'store'])->name('posts.likes');
     Route::delete('/{post}/likes', [PostLikeController::class, 'destroy']);
+    
 });
