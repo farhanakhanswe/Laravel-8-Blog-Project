@@ -47,7 +47,9 @@
                                             {{ $post->user->name }} </a><span>
                                             || {{ $post->created_at->diffForHumans() }} </span></h5>
                                     <p class="card-text"> {{ $post->body }}.</p>
-                                    <div class="row mx-1">
+                                    <span class="mx-1">{{ $post->likes->count() }}
+                                        {{ Str::plural('like', $post->likes->count()) }}</span>
+                                    <div class="row m-1">
                                         @auth
                                             @if (!$post->likedBy(auth()->user()))
                                                 <form method="POST" action="{{ route('posts.likes', $post) }}">
@@ -82,33 +84,47 @@
                                             </form>
                                         </div>
                                     @endauth
+
                                     <div class="row mx-1">
-                                        <ul>
-                                            <label>Comment History </label>
-                                            @forelse($post->comments as $comment)
-                                                <li> {{ $comment->body }} <span> By {{ $comment->user->name }} </span>
-                                                    @auth
-                                                        @can('delete', $comment)
-                                                            <span>
-                                                                <form method="POST"
-                                                                    action="{{ route('posts.comments.destroy', $comment) }}">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button class="btn btn-danger btn-sm"
-                                                                        type="submit">Delete</button>
-                                                                </form>
-                                                            </span>
-                                                        @endcan
-                                                    @endauth
-                                                </li>
-                                            @empty
-                                            @endforelse
-                                        </ul>
+                                        <div class="comment-history w-100">
+                                            <h6 class="comment-history-title">Comment History</h6>
+                                            <ul class="comment-list">
+                                                @forelse($post->comments as $comment)
+                                                    <li class="comment-item">
+                                                        <div class="comment-content">
+                                                            <div class="comment-header">
+                                                                <h6 class="comment-author">{{ $comment->user->name }}</h6>
+                                                                <p class="comment-time">
+                                                                    {{ $comment->created_at->diffForHumans() }}</p>
+                                                                @auth
+                                                                    @can('delete', $comment)
+                                                                        <div class="delete-comment">
+                                                                            <form method="POST"
+                                                                                action="{{ route('posts.comments.destroy', $comment) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button class="btn btn-link delete-comment-btn"
+                                                                                    type="submit">Delete</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    @endcan
+                                                                @endauth
+                                                            </div>
+                                                            <p class="comment-body">{{ $comment->body }}</p>
+                                                        </div>
+                                                    </li>
+                                                @empty
+                                                    <li class="comment-item">
+                                                        <p class="no-comments-text">No comments yet.</p>
+                                                    </li>
+                                                @endforelse
+                                            </ul>
+                                        </div>
+
+
                                     </div>
 
-                                    <span class="mx-1">{{ $post->likes->count() }}
-                                        {{ Str::plural('like', $post->likes->count()) }}</span>
-                                    <hr>
+
                                 </div>
                             @endforeach
 
