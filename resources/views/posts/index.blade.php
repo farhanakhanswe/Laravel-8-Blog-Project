@@ -70,9 +70,42 @@
                                                     <button class="btn btn-secondary btn-sm" type="submit">Delete</button>
                                                 </form>
                                             @endcan
-
-                                        @endauth
+                                        </div>
+                                        <div class="row mx-1">
+                                            <form method="POST" action="{{ route('posts.comments', $post) }}">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <input type="text" name="comment_body"
+                                                        placeholder="Enter a comment"><span>
+                                                        <button type="submit">Enter</button></span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endauth
+                                    <div class="row mx-1">
+                                        <ul>
+                                            <label>Comment History </label>
+                                            @forelse($post->comments as $comment)
+                                                <li> {{ $comment->body }} <span> By {{ $comment->user->name }} </span>
+                                                    @auth
+                                                        @can('delete', $comment)
+                                                            <span>
+                                                                <form method="POST"
+                                                                    action="{{ route('posts.comments.destroy', $comment) }}">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                            </span>
+                                                        @endcan
+                                                    @endauth
+                                                </li>
+                                            @empty
+                                            @endforelse
+                                        </ul>
                                     </div>
+
                                     <span class="mx-1">{{ $post->likes->count() }}
                                         {{ Str::plural('like', $post->likes->count()) }}</span>
                                     <hr>

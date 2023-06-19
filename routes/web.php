@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostCommentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -30,4 +31,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/{post}/likes', [PostLikeController::class, 'store'])->name('posts.likes');
     Route::delete('/{post}/likes', [PostLikeController::class, 'destroy']);
     
+    Route::post('/{post}/comments',[PostCommentController::class, 'store'])->name('posts.comments');
+    Route::delete('/post/{comment}', [PostCommentController::class, 'destroy'])->name('posts.comments.destroy');
 });
